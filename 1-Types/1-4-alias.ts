@@ -21,5 +21,5 @@
     const json: Json = 'json'
 
     type Bool = true
-    const isCat: Bool = false
+    // const isCat: Bool = false
 }
