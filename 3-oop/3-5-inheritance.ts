@@ -8,19 +8,11 @@
         makeCoffee(shots: number): CoffeeCup
     }
 
-    interface CommercialCoffeeMaker {
-        makeCoffee(shots: number): CoffeeCup
-
-        fillCoffeeBeans(beans: number): void
-
-        clean(): void
-    }
-
-    class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker {
+    class CoffeeMachine implements CoffeeMaker {
         private static BEANS_GRAM_PER_SHOT: number = 7
         private coffeeBeans: number = 0
 
-        private constructor(coffeeBeans: number) {
+        constructor(coffeeBeans: number) {
             this.coffeeBeans = coffeeBeans
         }
 
@@ -64,32 +56,26 @@
         }
     }
 
-    class AmateurUser {
-        constructor(private machine: CoffeeMaker) {
+    class CaffeLatteMachine extends CoffeeMachine {
+        constructor(beans: number, public readonly serialNumber: number) {
+            super(beans)
         }
 
-        makeCoffee() {
-            const coffee = this.machine.makeCoffee(2)
-            console.log(coffee)
-        }
-    }
-
-    class ProBarista {
-        constructor(private machine: CommercialCoffeeMaker) {
+        private steamMilk(): void {
+            console.log('steaming milk...🥛')
         }
 
-        makeCoffee() {
-            const coffee = this.machine.makeCoffee(2)
-            console.log(coffee)
-            this.machine.fillCoffeeBeans(15)
-            this.machine.clean()
+        makeCoffee(shots: number): CoffeeCup {
+            const coffee = super.makeCoffee(shots)
+            this.steamMilk()
+            return {...coffee, hasMilk: true}
         }
     }
 
-    const maker: CoffeeMachine = CoffeeMachine.makeMachine(32)
-    const amateur = new AmateurUser(maker)
-    const pro = new ProBarista(maker)
-    amateur.makeCoffee()
-    pro.makeCoffee()
+    const machine = new CoffeeMachine(24)
+    const latteMachine = new CaffeLatteMachine(24, 2022)
+    const coffee = latteMachine.makeCoffee(1)
+    console.log(latteMachine.serialNumber)
+    console.log(coffee)
 
 }
