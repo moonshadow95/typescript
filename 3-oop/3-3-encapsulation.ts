@@ -21,7 +21,7 @@
             return new CoffeeMaker(coffeeBeans)
         }
 
-        fillCoffeebeans(beans: number) {
+        fillCoffeeBeans(beans: number) {
             if (beans < 0) {
                 throw new Error('value for beans should be greater than 0')
             }
@@ -41,7 +41,7 @@
     }
 
     const maker = CoffeeMaker.makeMachine(32)
-    maker.fillCoffeebeans(16)
+    maker.fillCoffeeBeans(16)
 
     class User {
         get fullName(): string {
