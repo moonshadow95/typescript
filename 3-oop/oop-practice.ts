@@ -955,3 +955,102 @@
     const fancyCaramelCoffeeMachine = new CoffeeMaker(12, noMilkMaker, fancyCaramelMaker)
 
 }
+
+// Abstract Class
+{
+    // 자식 클래스에서 super 를 호출하지 않는 실수를 방지하려면 부모 클래스를 abstract class 로 만든다.
+    // abstract class -> abstract class 자체는 인스턴스로 만들 수 없다.
+    type CoffeeCup = {
+        // 샷 개수
+        shots: number
+        // 우유 유무
+        hasMilk?: boolean
+        // 캐러맬 유무
+        hasCaramel?: boolean
+    }
+
+    // abstract class
+    abstract class CoffeeMaker implements CoffeeMachine {
+        private static BEANS_PER_SHOT: number = 7
+        private coffeeBeans: number = 0
+
+        public constructor(coffeeBeans: number) {
+            this.coffeeBeans = coffeeBeans
+        }
+
+        fillCoffeeBeans(beans: number) {
+            if (beans <= 0) {
+                throw new Error('1개 이상의 커피콩을 넣어주세요!')
+            }
+            this.coffeeBeans += beans
+        }
+
+        private grindBeans(shots: number) {
+            if (this.coffeeBeans < shots * CoffeeMaker.BEANS_PER_SHOT) {
+                throw new Error('커피콩이 부족합니다!')
+            }
+            console.log(`${shots}샷을 위해 콩을 갈고 있습니다...`)
+        }
+
+        private heat(): void {
+            console.log('물을 데우고 있습니다...')
+        }
+
+        // 자식 클래스마다 달라질 수 있는 함수를 abstract 으로 만든다.
+        // 자식 클래스에서 각각 다른 행동을 하도록 접근해야 하므로 protected 를 붙인다.
+        // abstract method (추상적) 이기 때문에 구현사항이 없어야 한다. -> 각각 자식 클래스에서 구현할 것
+        protected abstract extract(shots: number): CoffeeCup
+
+        clean(): void {
+            console.log('기계를 청소하고 있습니다...')
+        }
+
+        makeCoffee(shots: number): CoffeeCup {
+            this.grindBeans(shots)
+            this.heat()
+            return this.extract(shots)
+        }
+    }
+
+    class CaffeLatteMaker extends CoffeeMaker {
+        constructor(beans: number, public readonly serialNumber: number) {
+            super(beans)
+        }
+
+        private steamMilk(): void {
+            console.log('우유를 추가하고 있습니다...')
+        }
+
+        // abstract method 구현
+        protected extract(shots: number): CoffeeCup {
+            this.steamMilk()
+            return {shots, hasMilk: true}
+        }
+    }
+
+    class CaramelLatteMaker extends CoffeeMaker {
+
+        addCaramel(): void {
+            console.log('카라멜을 추가하고 있습니다...')
+        }
+
+        // abstract method 구현
+        protected extract(shots: number): CoffeeCup {
+            this.addCaramel()
+            return {shots, hasMilk: true, hasCaramel: true}
+        }
+    }
+
+    interface CoffeeMachine {
+        makeCoffee(shots: number): CoffeeCup
+    }
+
+    const makers: CoffeeMachine[] = [
+        new CaramelLatteMaker(16),
+        new CaffeLatteMaker(16, 123123)
+    ]
+    //
+    makers.forEach((machine) => {
+        machine.makeCoffee(1)
+    })
+}
