@@ -830,6 +830,9 @@
         public constructor(
             coffeeBeans: number,
             // 커피 머신에서 milk frothier 와 caramel provider 를 인자로 받는다.
+            // dependency injection
+            // 객체가 생성될 때, 생성자의 매개변수로 전달된 값은, 객체의 프로퍼티 값으로
+            // 자동으로 그 값이 초기화되고 할당된다.
             public milkFrothier: MilkFrothier,
             public caramelProvider: CaramelProvider
         ) {
