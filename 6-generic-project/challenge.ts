@@ -48,11 +48,19 @@
         }
     }
 
-    const myStack = new StackImpl<string>(3)
-    myStack.push('1')
-    myStack.push('2')
-    myStack.push('3')
-    while (myStack.size >= 0) {
-        console.log(myStack.pop())
+    const stringStack = new StackImpl<string>(3)
+    stringStack.push('1')
+    stringStack.push('2')
+    stringStack.push('3')
+    while (stringStack.size >= 0) {
+        console.log(stringStack.pop())
+    }
+
+    const numberStack = new StackImpl<number>(3)
+    numberStack.push(1)
+    numberStack.push(2)
+    numberStack.push(3)
+    while (numberStack.size >= 0) {
+        console.log(numberStack.pop())
     }
 }
