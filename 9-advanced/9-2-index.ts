@@ -2,8 +2,8 @@
     const obj = {
         name: 'soo'
     }
-    obj.name // 'soo'
-    obj[name] // 'soo'
+    // obj.name // 'soo'
+    // obj[name] // 'soo'
 
     type Animal = {
         name: string
