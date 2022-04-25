@@ -34,7 +34,7 @@ class Pos2 implements PositionInterface {
     y: number
 }
 
-// Extends
+// Extends (확장)
 interface ZPositionInterface extends PositionInterface {
     z: number
 }
